@@ -10,32 +10,35 @@ router.post("/", async (ctx) => {
     .value;
   try {
     if (type === "POST") {
-      ctx.response.body = await axiod.post(
-        url,
-        { ...params },
-        token
-          ? {
-              headers: {
-                Cookie: `kkstrauth=${token}`,
-              },
-            }
-          : undefined
-      );
+      ctx.response.body = (
+        await axiod.post(
+          url,
+          { ...params },
+          token
+            ? {
+                headers: {
+                  Cookie: `kkstrauth=${token}`,
+                },
+              }
+            : undefined
+        )
+      ).data;
     } else {
-      ctx.response.body = await axiod.get(
-        url,
-        token
-          ? {
-              headers: {
-                Cookie: `kkstrauth=${token}`,
-              },
-            }
-          : undefined
-      );
+      ctx.response.body = (
+        await axiod.get(
+          url,
+          token
+            ? {
+                headers: {
+                  Cookie: `kkstrauth=${token}`,
+                },
+              }
+            : undefined
+        )
+      ).data;
     }
-    console.log(ctx.response.status);
-  } catch (e) {
-    console.error("Error encountered", e);
+  } catch {
+    return null;
   }
 });
 
