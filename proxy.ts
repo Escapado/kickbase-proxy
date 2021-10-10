@@ -8,29 +8,34 @@ const router = new Router();
 router.post("/", async (ctx) => {
   const { token, url, params, type } = await ctx.request.body({ type: "json" })
     .value;
-  if (type === "POST") {
-    ctx.response.body = await axiod.post(
-      url,
-      { ...params },
-      token
-        ? {
-            headers: {
-              Cookie: `kkstrauth=${token}`,
-            },
-          }
-        : undefined
-    );
-  } else {
-    ctx.response.body = await axiod.get(
-      url,
-      token
-        ? {
-            headers: {
-              Cookie: `kkstrauth=${token}`,
-            },
-          }
-        : undefined
-    );
+  try {
+    if (type === "POST") {
+      ctx.response.body = await axiod.post(
+        url,
+        { ...params },
+        token
+          ? {
+              headers: {
+                Cookie: `kkstrauth=${token}`,
+              },
+            }
+          : undefined
+      );
+    } else {
+      ctx.response.body = await axiod.get(
+        url,
+        token
+          ? {
+              headers: {
+                Cookie: `kkstrauth=${token}`,
+              },
+            }
+          : undefined
+      );
+    }
+    console.log(ctx.response.status);
+  } catch (e) {
+    console.error("Error encountered", e);
   }
 });
 
