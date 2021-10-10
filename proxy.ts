@@ -8,7 +8,6 @@ const router = new Router();
 router.post("/", async (ctx) => {
   const { token, url, params, type } = await ctx.request.body({ type: "json" })
     .value;
-  ctx.response.headers.set("Content-Type", "application/json");
   if (type === "POST") {
     ctx.response.body = await axiod.post(
       url,
