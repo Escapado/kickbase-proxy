@@ -36,7 +36,7 @@ router.post("/", async (ctx) => {
 });
 
 app.use(router.allowedMethods());
-app.use(oakCors({ origin: "*" }));
+app.use(oakCors({ origin: /^.+localhost:(1234|3000)$/ }));
 app.use(router.routes());
 
 await app.listen({ port: 8000 });
