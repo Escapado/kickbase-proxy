@@ -2,9 +2,7 @@ import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
 import axiod from "https://deno.land/x/axiod/mod.ts";
 
-const port = 8000;
 const app = new Application();
-
 const router = new Router();
 
 router.post("/", async (ctx) => {
@@ -38,11 +36,7 @@ router.post("/", async (ctx) => {
 });
 
 app.use(router.allowedMethods());
-app.use(oakCors());
+app.use(oakCors({ origin: "*" }));
 app.use(router.routes());
 
-app.addEventListener("listen", () => {
-  console.log(`Listening on port: ${port}`);
-});
-
-await app.listen({ port });
+await app.listen({ port: 8000 });
